@@ -34,6 +34,9 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connect
 
 
 var app = builder.Build();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
 //Adding Authorization/Authentication middlewares at the project
 app.UseAuthentication();
 app.UseAuthorization();

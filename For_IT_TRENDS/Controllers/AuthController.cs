@@ -28,7 +28,7 @@ namespace For_IT_TRENDS.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(User loginUser)
+        public IResult Login(User loginUser)
         {
             if (loginUser != null)
             {
@@ -45,7 +45,8 @@ namespace For_IT_TRENDS.Controllers
                 if (user != null)
                 {
                     //Добавляем клайм с логином
-                    var claims = new List<Claim> { new Claim(ClaimTypes.Name, loginUser.Login) };
+                    var claims = new List<Claim> { new Claim(ClaimTypes.Name, loginUser.Login),
+                    new Claim(ClaimTypes.Role, loginUser.Role.Name)};
 
                     //Создаем jwt токен
                     var jwt = new JwtSecurityToken(
@@ -62,19 +63,20 @@ namespace For_IT_TRENDS.Controllers
                     var responce = new
                     {
                         access_token = encodedJwt,
-                        username = user.Login
+                        username = user.Login,
+                        role = user.Role.Name
                     };
 
 
-                    Request.Headers.Add("Authorization", "Bearer " + jwt);
-                    return RedirectToAction("ForAdmin", "Auth");
+                    //Request.Headers.Add("Authorization", "Bearer " + jwt);
+                    return Results.Json(responce);
                     //return Ok(responce);
 
                 }
-                    return RedirectToAction("Index", "Home");
+                    return Results.Unauthorized();
 
             }
-                return RedirectToAction("Index", "Home");
+            return Results.Unauthorized();
         }
 
 
