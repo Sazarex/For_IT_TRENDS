@@ -12,6 +12,7 @@ namespace For_IT_TRENDS.Domain
         public DbSet<Experience> Experiences { get; set; }
         public DbSet<Polyclinic> Polyclinics{ get; set; }
         public DbSet<Specialization> Specializations{ get; set; }
+        public DbSet<User> Users { get; set; }
 
         #endregion
         public AppDbContext(DbContextOptions<AppDbContext> options): base(options)
@@ -65,7 +66,21 @@ namespace For_IT_TRENDS.Domain
                 Title = "Санкт-Петербург"
             }});
 
-
+            builder.Entity<User>().HasData(new User[]
+            {
+                new User()
+                {
+                    Id=1,
+                    Login = "Admin",
+                    Password="olUO6rBySmkRksoTmC5uvQ=="
+                },
+                new User()
+                {
+                    Id=2,
+                    Login="User",
+                    Password=null
+                }
+            });
 
             #endregion
 

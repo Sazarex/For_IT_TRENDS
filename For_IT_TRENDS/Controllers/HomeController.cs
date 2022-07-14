@@ -101,11 +101,6 @@ namespace For_IT_TRENDS.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
 
     }
 }

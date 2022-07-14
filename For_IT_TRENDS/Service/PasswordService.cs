@@ -8,6 +8,10 @@ namespace For_IT_TRENDS.Service
         public static bool IsPasswordsEquals(string password, string passwordHashFromDb)
         {
             bool result = false;
+            if (password == null && passwordHashFromDb==null)
+            {
+                return true;
+            }
 
 
             byte[] source = ASCIIEncoding.ASCII.GetBytes(password);
