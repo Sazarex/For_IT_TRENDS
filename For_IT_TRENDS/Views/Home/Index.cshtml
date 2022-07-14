@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Вывод данных";
+ }
+@model List<City> 
+
+	<div>
+		<form asp-action="Create" asp-controller="Home" method="get">
+			<input type="submit" value="Добавить город" />
+		</form>
+	</div>
+
+    <div>
+        <a asp-action="Login" asp-controller="Home">Авторизация</a>
+    </div>
+
+    <br />
+
+    <table>
+        <tr><td>Id</td><td>Title</td><td></td><td></td></tr>
+        @foreach(var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Title</td>
+            <td><a asp-action="Edit" asp-controller="Home" asp-route-CityId="@item.Id">Изменить</a></td>
+            <td>
+                <form method="post" asp-controller="Home" asp-action="DeleteCity"  asp-route-CityId="@item.Id">
+                    <input type="submit" value="Удалить"/>
+                </form>
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,20 @@
+﻿@model For_IT_TRENDS.Domain.Entities.User
+<h2> Login Form</h2>
+
+<form method="post" asp-action="Login" asp-controller="Home" >
+    <div >
+    <div>
+    <label asp-for="Password">Login</label>
+    <input type="text" asp-for="Login" />
+    </div>
+    <div>
+        <label asp-for="Password">Password</label>
+        <input type="password" asp-for="Password" />
+    </div>
+
+    <div>
+        <input type="submit" value="Login" />
+    </div>
+    </div>
+
+</form>
