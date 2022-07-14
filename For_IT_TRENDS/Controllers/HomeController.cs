@@ -157,9 +157,8 @@ namespace For_IT_TRENDS.Controllers
         [Authorize(Roles ="Admin")]
         public IActionResult ForAdmin()
         {
-
-
-            return View(User.FindFirst(ClaimsIdentity.DefaultNameClaimType)?.Value);
+            return View(User.FindFirst(ClaimsIdentity.DefaultNameClaimType)?.Value);//Пустой User
+            //Коммент на комит
              
         }
     }
