@@ -12,8 +12,6 @@ namespace For_IT_TRENDS.Domain
         public DbSet<Experience> Experiences { get; set; }
         public DbSet<Polyclinic> Polyclinics{ get; set; }
         public DbSet<Specialization> Specializations{ get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
 
         #endregion
         public AppDbContext(DbContextOptions<AppDbContext> options): base(options)
@@ -69,40 +67,6 @@ namespace For_IT_TRENDS.Domain
 
 
 
-            Role adminRole = new Role()
-            {
-                RoleId = 1,
-                Name = "Admin",
-
-            };
-            Role userRole = new Role()
-            {
-                RoleId=2,
-                Name = "User",
-
-            };
-
-            User admin = new User()
-            {
-                Id=1,
-                Login = "Admin",
-                Password = "olUO6rBySmkRksoTmC5uvQ==",
-                RoleId = adminRole.RoleId
-            };
-
-            User user = new User()
-            {
-                Id=2,
-                Login = "User",
-                Password = null,
-                RoleId = userRole.RoleId
-            };
-
-
-
-            builder.Entity<User>().HasData(new User[] { admin, user });
-
-            builder.Entity<Role>().HasData(new Role[] { adminRole, userRole });
             #endregion
 
             base.OnModelCreating(builder);

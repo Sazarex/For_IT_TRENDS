@@ -107,59 +107,5 @@ namespace For_IT_TRENDS.Controllers
             return View();
         }
 
-        [HttpPost]
-        //[ValidateAntiForgeryToken]//Защита от подделки
-        public async Task<IActionResult> Login(LoginModel model)
-        {
-            if (ModelState.IsValid)
-            {
-
-
-                byte[] source = ASCIIEncoding.ASCII.GetBytes(model.Password);
-                byte[] hashedPassword = new MD5CryptoServiceProvider().ComputeHash(source);
-                string hashedPasswordString = Convert.ToBase64String(hashedPassword);
-
-
-
-
-                User user = await db.Users
-                    .Include(u => u.Role)
-                    .FirstOrDefaultAsync(u => u.Login == model.Login && u.Password== hashedPasswordString);
-
-                if (user != null)
-                {
-                    Authenticate(user);
-
-                    return RedirectToAction("ForAdmin", "Home");
-                }
-                ModelState.AddModelError("", "Некорректный пароль и логин");
-            }
-            return View(model);
-        }
-
-        private async Task Authenticate(User user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimsIdentity.DefaultNameClaimType,user.Login),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name)
-            };
-
-
-            //Связываем с ClaimIdentity клаймы, тип аутентификации, именем и ролью клайма
-            //Этот ClaimIdentity будет представлять одну учетку
-            ClaimsIdentity id = new ClaimsIdentity(claims, "Cookies");
-            
-            SignIn(new ClaimsPrincipal(id),CookieAuthenticationDefaults.AuthenticationScheme);
-            this.ForAdmin();
-        }
-
-        [Authorize(Roles ="Admin")]
-        public IActionResult ForAdmin()
-        {
-            return View(User.FindFirst(ClaimsIdentity.DefaultNameClaimType)?.Value);//Пустой User
-            //Коммент на комит
-             
-        }
     }
 }
