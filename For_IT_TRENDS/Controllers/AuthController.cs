@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authorization;
 
 namespace For_IT_TRENDS.Controllers
 {
@@ -27,11 +30,17 @@ namespace For_IT_TRENDS.Controllers
         [HttpPost]
         public IActionResult Login(User loginUser)
         {
-            if (loginUser!= null)
+            if (loginUser != null)
             {
+                byte[] source = ASCIIEncoding.ASCII.GetBytes(loginUser.Password);
+                byte[] hashedPassword = new MD5CryptoServiceProvider().ComputeHash(source);
+
+                string hashedPasswordString = Convert.ToBase64String(hashedPassword);
+
+
                 //Находим в таблице пользователей пользователя с таким же логином и паролем
                 User? user = db.Users.FirstOrDefault(u => u.Login == loginUser.Login &&
-                (PasswordService.IsPasswordsEquals(loginUser.Password, u.Password)));
+                (hashedPasswordString == u.Password));
 
                 if (user != null)
                 {
@@ -56,15 +65,26 @@ namespace For_IT_TRENDS.Controllers
                         username = user.Login
                     };
 
-                    
+
                     Request.Headers.Add("Authorization", "Bearer " + jwt);
-                    return Ok(responce);
+                    return RedirectToAction("ForAdmin", "Auth");
+                    //return Ok(responce);
 
                 }
-                return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home");
 
             }
-            return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
         }
+
+
+        [Authorize]
+        public string ForAdmin()
+        {
+            return "For Admin";
+        }
+
     }
+
+
 }

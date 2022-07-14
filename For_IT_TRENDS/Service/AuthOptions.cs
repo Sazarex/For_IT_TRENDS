@@ -7,7 +7,7 @@ namespace For_IT_TRENDS.Service
     {
         public const string ISSUER = "MyAuthServer";
         public const string AUDIENCE = "MyAuthClient";
-        const string KEY = "KeyFor_ITtrends";//Key for encrypt
+        const string KEY = "KeyFor_ITtrends!335";//Key for encrypt
 
         //Convert our KEY to byte array and return him 
         public static SymmetricSecurityKey GetSymmetricSecurityKey()
