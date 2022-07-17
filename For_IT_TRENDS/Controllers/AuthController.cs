@@ -20,6 +20,12 @@ namespace For_IT_TRENDS.Controllers
             db = _db;
         }
 
+        [HttpGet]
+        public IActionResult JsClient()
+        {
+            return View();
+        }
+
 
         [HttpGet]
         public IActionResult Login()
@@ -28,7 +34,7 @@ namespace For_IT_TRENDS.Controllers
         }
 
         [HttpPost]
-        public IResult Login(User loginUser)
+        public IResult JsClient(User loginUser)
         {
             if (loginUser != null)
             {
